@@ -1,7 +1,5 @@
-import { Dimensions, StyleSheet } from 'react-native'
-
-export const { width: PAGE_WIDTH, height: PAGE_HEIGHT } =
-  Dimensions.get('window')
+import { StyleSheet } from 'react-native'
+import { PAGE_HEIGHT, PAGE_WIDTH } from './Skate'
 
 const CIRCLE_WIDTH = PAGE_WIDTH * 0.7
 

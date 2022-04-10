@@ -1,12 +1,16 @@
-import { Text, View } from 'react-native'
+import { Dimensions, Text, View } from 'react-native'
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated'
 
-import { SkateProps } from './skate.types'
-import { PAGE_WIDTH, styles } from './skate.styles'
+//* CUSTOM IMPORTS
+import type { SkateProps } from './skate.types'
+import { styles } from './skate.styles'
+
+export const { width: PAGE_WIDTH, height: PAGE_HEIGHT } =
+  Dimensions.get('window')
 
 export const Skate = ({ skate, index, translateX }: SkateProps) => {
   const inputRange = [
