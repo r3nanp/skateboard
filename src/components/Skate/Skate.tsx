@@ -1,17 +1,66 @@
-import { Image, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated'
 
 import { SkateProps } from './skate.types'
-import { styles } from './skate.styles'
+import { PAGE_WIDTH, styles } from './skate.styles'
 
-export const Skate = ({ skate }: SkateProps) => {
+export const Skate = ({ skate, index, translateX }: SkateProps) => {
+  const inputRange = [
+    (index - 1) * PAGE_WIDTH,
+    index * PAGE_WIDTH,
+    (index + 1) * PAGE_WIDTH,
+  ]
+
+  const circleStyle = useAnimatedStyle(() => {
+    const scale = interpolate(
+      translateX.value,
+      inputRange,
+      [0, 1, 0],
+      Extrapolate.CLAMP
+    )
+
+    return {
+      transform: [{ scale }],
+    }
+  })
+
+  const imageStyle = useAnimatedStyle(() => {
+    const progress = interpolate(
+      translateX.value,
+      inputRange,
+      [0, 0, 1],
+      Extrapolate.CLAMP
+    )
+
+    const opacity = interpolate(
+      translateX.value,
+      inputRange,
+      [0.5, 1, 0.5],
+      Extrapolate.CLAMP
+    )
+
+    return {
+      opacity,
+      transform: [
+        {
+          rotate: `${progress * Math.PI}rad`,
+        },
+      ],
+    }
+  })
+
   return (
     <View style={styles.container}>
       <View style={styles.circleContainer}>
-        <View style={styles.circle} />
+        <Animated.View style={[styles.circle, circleStyle]} />
 
-        <Image
+        <Animated.Image
           source={skate.source}
-          style={styles.image}
+          style={[styles.image, imageStyle]}
           resizeMode="contain"
         />
       </View>

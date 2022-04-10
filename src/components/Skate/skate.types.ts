@@ -1,4 +1,5 @@
 import { ImageSourcePropType } from 'react-native'
+import Animated from 'react-native-reanimated'
 
 export interface SkateType {
   id: number
@@ -9,4 +10,6 @@ export interface SkateType {
 
 export type SkateProps = {
   skate: SkateType
+  index: number
+  translateX: Animated.SharedValue<number>
 }

@@ -17,14 +17,6 @@ export const HomePage = () => {
     },
   })
 
-  const scrollTranslation = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX: translateX.value,
-      },
-    ],
-  }))
-
   return (
     <Animated.ScrollView
       horizontal
@@ -32,10 +24,17 @@ export const HomePage = () => {
       onScroll={scrollHandler}
       scrollEventThrottle={16}
       showsHorizontalScrollIndicator={false}
-      style={[styles.container, scrollTranslation]}
+      style={styles.container}
     >
-      {SKATES.map(skate => {
-        return <Skate key={skate.id} skate={skate} />
+      {SKATES.map((skate, index) => {
+        return (
+          <Skate
+            key={skate.id}
+            skate={skate}
+            index={index}
+            translateX={translateX}
+          />
+        )
       })}
     </Animated.ScrollView>
   )
