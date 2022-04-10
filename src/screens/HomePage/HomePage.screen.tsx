@@ -1,10 +1,12 @@
+import { View } from 'react-native'
 import Animated, {
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
   useSharedValue,
+  useAnimatedScrollHandler,
+  useDerivedValue,
 } from 'react-native-reanimated'
 
-import { Skate } from '../../components'
+//* CUSTOM IMPORTS
+import { Footer, PAGE_WIDTH, Skate } from '../../components'
 import { SKATES } from '../../constants'
 import { styles } from './homePage.styles'
 
@@ -17,25 +19,32 @@ export const HomePage = () => {
     },
   })
 
+  const activeIndex = useDerivedValue(() => {
+    return translateX.value / PAGE_WIDTH
+  }, [])
+
   return (
-    <Animated.ScrollView
-      horizontal
-      pagingEnabled
-      onScroll={scrollHandler}
-      scrollEventThrottle={16}
-      showsHorizontalScrollIndicator={false}
-      style={styles.container}
-    >
-      {SKATES.map((skate, index) => {
-        return (
-          <Skate
-            key={skate.id}
-            skate={skate}
-            index={index}
-            translateX={translateX}
-          />
-        )
-      })}
-    </Animated.ScrollView>
+    <View style={styles.container}>
+      <Animated.ScrollView
+        horizontal
+        pagingEnabled
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+        showsHorizontalScrollIndicator={false}
+      >
+        {SKATES.map((skate, index) => {
+          return (
+            <Skate
+              key={skate.id}
+              skate={skate}
+              index={index}
+              translateX={translateX}
+            />
+          )
+        })}
+      </Animated.ScrollView>
+
+      <Footer skates={SKATES} />
+    </View>
   )
 }
